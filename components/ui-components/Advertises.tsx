@@ -4,32 +4,52 @@ import Link from "next/link";
 
 const Advertises = () => {
     return (
-        <div className="w-1/4 h-screen mr-2 bg-gray-100 p-6 rounded-lg shadow-md flex flex-col">
-            <div className="m-2 p-3 flex flex-col items-center gap-2">
-                <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
+        <div className="w-1/4 h-full mr-2 bg-gray-100 p-6 rounded-lg shadow-md flex flex-col ">
+            <div className="m-2 p-3 flex flex-col items-center gap-2 h-full w-full">
+                <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"
+                   className="relative inline-block  hover:scale-95 duration-500">
                     <Image
-                        src="/onboarding-img.png"
+                        src="/car-rental.jpg"
                         alt="flight logo"
                         width={480}
                         height={40}
                         className="rounded-lg"
                     />
+                    <div className="absolute left-2 bottom-2">
+                        <i className="fa-solid fa-car bg-gray-300"></i>
+                        <p className="text-gray-100 text-lg">Rent a car</p>
+                    </div>
                 </a>
 
-                <Image
-                    src="/onboarding-img.png"
-                    alt="flight logo"
-                    width={480}
-                    height={40}
-                    className="rounded-lg"
-                />
-                <Image
-                    src="/onboarding-img.png"
-                    alt="flight logo"
-                    width={480}
-                    height={40}
-                    className="rounded-lg"
-                />
+                <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"
+                   className="relative inline-block hover:scale-95 duration-500">
+                    <Image
+                        src="/hotels.jpg"
+                        alt="flight logo"
+                        width={480}
+                        height={40}
+                        className="rounded-lg"
+                    />
+                    <div className="absolute left-2 bottom-2">
+                        <i className="fa-solid fa-car bg-gray-300"></i>
+                        <p className="text-gray-100 text-lg">Hotels</p>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"
+                   className="relative inline-block hover:scale-95 duration-500">
+                    <Image
+                        src="/travel-packages.jpg"
+                        alt="flight logo"
+                        width={480}
+                        height={40}
+                        className="rounded-lg"
+                    />
+                    <div className="absolute left-2 bottom-2">
+                        <i className="fa-solid fa-car bg-gray-300"></i>
+                        <p className="text-gray-100 text-lg">Travel Packages</p>
+                    </div>
+                </a>
             </div>
 
         </div>
