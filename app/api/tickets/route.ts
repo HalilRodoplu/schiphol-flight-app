@@ -9,8 +9,24 @@ export const GET = async () => {
         const tickets = await Tickets.find({})
         return NextResponse.json(tickets);
     } catch (error: any) {
-        console.error("Errorrrr-----",error);
-        return NextResponse.json({ error: error.message });
+        console.error("Errorrrr-----", error);
+        return NextResponse.json({error: error.message});
     }
 
+}
+
+export const POST = async (request: Request) => {
+    await dbConnect()
+
+    try {
+        const ticketData = await request.json()
+        const newTicket = new Tickets(ticketData)
+        await newTicket.save();
+
+        return NextResponse.json(newTicket);
+
+        } catch (error:any) {
+        console.error("Errorrrr-----", error);
+        return NextResponse.json({error: error.message});
+    }
 }

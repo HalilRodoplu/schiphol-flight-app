@@ -15,7 +15,7 @@ interface FlightProps {
     prefixICAO?: string
 }
 
-const Flights = ({ flight, estimatedLandingTime, scheduleTime, scheduleDateTime, actualLandingTime, prefixICAO}:FlightProps) => {
+const Flights = () => {
 
     const [flights, setFlights] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -129,33 +129,37 @@ const Flights = ({ flight, estimatedLandingTime, scheduleTime, scheduleDateTime,
         );
     }
 
+
     return (
-        <div className="w-3/4 h-fit ml-3 bg-gray-100 p-6 rounded-lg shadow-md">
+        <div className="w-3/4 h-screen bg-gray-100 p-6 rounded-lg shadow-md flex flex-col justify-between">
+            <div className="overflow-y-auto flex-grow">
+                {availableFlights.map((availableFlight) => (
+                    <Flight
+                        key={availableFlight.id}
+                        mainFlight={availableFlight.mainFlight}
+                        arrivalTime={formatDateTime(availableFlight.actualLandingTime, "time")}
+                        departureTime={formatDateTime(availableFlight.scheduleDateTime, "time")}
+                        to={availableFlight.route.destination}
+                        flightTime={getTimeDifference(availableFlight.scheduleDateTime, availableFlight.actualLandingTime)}
+                        isFutureDate={isFuture(availableFlight.actualLandingTime)}
+                        icao={availableFlight.prefixICAO}
+                    />
+                ))}
 
-            {availableFlights.map((availableFlight) => (
-                <Flight
-                    key={availableFlight.id}
-                    arrivalTime={formatDateTime(availableFlight.actualLandingTime, "time")}
-                    departureTime={formatDateTime(availableFlight.scheduleDateTime, "time")}
-                    to={availableFlight.route.destination}
-                    flightTime={getTimeDifference(availableFlight.scheduleDateTime, availableFlight.actualLandingTime)}
-                    isFutureDate={isFuture(availableFlight.actualLandingTime)}
-                    icao={availableFlight.prefixICAO}
-                />
-            ))}
-
-            {flights.map((flight, i) => (
-                <Flight
-                    key={i}
-                    arrivalTime={formatDateTime(flight.estimatedLandingTime, "time")}
-                    departureTime={flight.scheduleTime}
-                    to={flight.route.destinations}
-                    landingTime={formatDateTime(flight.estimatedLandingTime, "time")}
-                    flightTime={getTimeDifference(flight.scheduleDateTime, flight.estimatedLandingTime)}
-                    isFutureDate={isFuture(flight.actualLandingTime)}
-                    icao={flight.prefixICAO}
-                />
-            ))}
+                {flights.map((flight, i) => (
+                    <Flight
+                        key={i}
+                        mainFlight={flight.mainFlight}
+                        arrivalTime={flight.estimatedLandingTime ? formatDateTime(flight.estimatedLandingTime, "time") : "Time value not found!"}
+                        departureTime={flight.scheduleTime}
+                        to={flight.route.destinations}
+                        landingTime={flight.landingTime ? formatDateTime(flight.estimatedLandingTime, "time") : "Time value not found!"}
+                        flightTime={getTimeDifference(flight.scheduleDateTime, flight.estimatedLandingTime)}
+                        isFutureDate={isFuture(flight.actualLandingTime)}
+                        icao={flight.prefixICAO}
+                    />
+                ))}
+            </div>
 
             <div className="paginator flex justify-center mt-4">
                 <button
@@ -188,6 +192,7 @@ const Flights = ({ flight, estimatedLandingTime, scheduleTime, scheduleDateTime,
             </div>
         </div>
     );
+
 };
 
 export default Flights;

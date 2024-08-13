@@ -5,16 +5,26 @@ import {schiphol} from "@/constants/schiphol";
 
 interface FlightDirectionProps {
     to: string,
+    mainFlight: string
 }
 
-const FlightDirection = ({to}: FlightDirectionProps) => {
+const FlightDirection = ({to, mainFlight}: FlightDirectionProps) => {
 
 
     return (
-        <div className="flex flex-row justify-start gap-2 items-center font-bold">
-            <h3>{schiphol.airportCode}</h3>
-            <FontAwesomeIcon icon={faArrowRight} />
-            <h3>{to}</h3>
+        <div className="flex flex-row justify-start  ">
+            <div className="flex flex-col">
+                <div className="flex flex-row font-bold gap-2 items-center">
+                    <h3>{schiphol.airportCode}</h3>
+                    <FontAwesomeIcon icon={faArrowRight}/>
+                    <h3>{to}</h3>
+                </div>
+                <div>
+                    <h3>{mainFlight}</h3>
+                </div>
+            </div>
+
+
         </div>
     );
 };

@@ -8,7 +8,8 @@ export const availableFlights = [
             "eu": "S",
             "visa": false
         },
-        "prefixICAO": "THY",
+        "prefixICAO": "SXS",
+        "mainFlight": "SXS845"
     },
     {
         "id": 222222,
@@ -19,7 +20,8 @@ export const availableFlights = [
             "eu": "S",
             "visa": false
         },
-        "prefixICAO": "THY",
+        "prefixICAO": "PGT",
+        "mainFlight": "PGT5910",
     },
     {
         "id": 333333,
@@ -30,6 +32,7 @@ export const availableFlights = [
             "eu": "S",
             "visa": false
         },
-        "prefixICAO": "THY",
+        "prefixICAO": "PGT",
+        "mainFlight": "PGT1252",
     }
 ]

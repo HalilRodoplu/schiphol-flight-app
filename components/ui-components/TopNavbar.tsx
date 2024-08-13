@@ -5,11 +5,8 @@ import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {useRouter, usePathname} from "next/navigation";
 
-interface TopNavbarProps {
-    href: string
-}
 
-const TopNavbar = ({href}:TopNavbarProps) => {
+const TopNavbar = () => {
 
 
     const pathName = usePathname()

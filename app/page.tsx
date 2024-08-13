@@ -10,7 +10,6 @@ export default function Home() {
                 <Flights/>
                 <Advertises/>
             </div>
-
         </div>
     );
 }
