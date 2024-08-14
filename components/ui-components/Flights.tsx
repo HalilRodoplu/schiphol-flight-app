@@ -1,50 +1,56 @@
-"use client"
+"use client";
 
 import React, {useState, useEffect} from 'react';
 import Flight from "@/components/ui-components/Flight";
-import {InfinitySpin,} from "react-loader-spinner";
+import {InfinitySpin} from "react-loader-spinner";
 import {availableFlights} from "@/constants/availableFlights";
-import FlightDirection from "@/components/ui-components/FlightDirection";
+import TopFilter from "@/components/ui-components/TopFilter";
 
-interface FlightProps {
-    flight?: object,
-    estimatedLandingTime?: string,
-    scheduleTime?: string,
-    scheduleDateTime?: string,
-    actualLandingTime?: string,
-    prefixICAO?: string
+interface FlightData {
+    id: string;
+    mainFlight: string;
+    estimatedLandingTime?: string;
+    scheduleTime?: string;
+    scheduleDateTime?: string;
+    actualLandingTime?: string;
+    prefixICAO?: string;
+    route: {
+        destination: string;
+        destinations?: string; // Ek olarak destinations alanı da ekliyorum çünkü map'de bunu kullanıyorsunuz
+    };
+    landingTime?: string;
 }
+
+
 
 const Flights = () => {
 
-    const [flights, setFlights] = useState([]);
+    const [flights, setFlights] = useState<FlightData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(0); // Başlangıç sayfası 0
-    const itemsPerPage = 5
+    const [selectedPrice, setSelectedPrice] = useState<number | null>(null);
+    const itemsPerPage = 5;
 
     useEffect(() => {
         fetchFlights();
     }, [page]); // Sayfa numarası değiştiğinde yeniden fetch yapar
 
-    const fetchFlights = () => {
+    const fetchFlights = async () => {
         const apiUrl = `/api/proxy?page=${page}`;
         setIsLoading(true);
 
-        fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setFlights(data.flights);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-                setIsLoading(false);
-            });
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setFlights(data.flights);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleNextPage = () => {
@@ -55,18 +61,18 @@ const Flights = () => {
         setPage(prevPage => Math.max(prevPage - 1, 0)); // Sayfa 0'ın altına düşmesin
     };
 
-    const handlePageClick = (pageNumber:number) => {
+    const handlePageClick = (pageNumber: number) => {
         setPage(pageNumber);
+    };
+
+    const handlePriceSelection = (price: number) => {
+        setSelectedPrice(price);
     };
 
     const startPage = Math.floor(page / itemsPerPage) * itemsPerPage;
     const endPage = startPage + itemsPerPage;
 
-
-    // console.log("flights----", flights);
-
-
-    function formatDateTime(isoString:string, formatType:string) {
+    function formatDateTime(isoString: string, formatType: string) {
         const date = new Date(isoString);
 
         const day = String(date.getDate()).padStart(2, '0');
@@ -84,15 +90,15 @@ const Flights = () => {
         }
     }
 
-    function getTimeDifference(startTime:string, endTime:string) {
-        const start: any = new Date(startTime);
-        const end: any = new Date(endTime);
+    function getTimeDifference(startTime: string, endTime: string) {
+        const start = new Date(startTime);
+        const end = new Date(endTime);
 
         if (end < start) {
             end.setDate(end.getDate() + 1);
         }
 
-        const diffMs = end - start;
+        const diffMs = end.getTime() - start.getTime();
 
         const hours = Math.floor(diffMs / 3600000);
         const minutes = Math.floor((diffMs % 3600000) / 60000);
@@ -115,49 +121,77 @@ const Flights = () => {
         const inputDate = new Date(dateString);
         const now = new Date();
 
-        return inputDate > now
-    }
+        return inputDate > now;
+    };
+
+    const postTicket = async (ticketData: any) => {
+        const response = await fetch("/api/tickets", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ticketData)
+        });
+        const data = await response.json();
+        if (!data.error) {
+            console.log('Ticket successfully posted:', data.ticket);
+        } else {
+            console.error('Error posting ticket:', data.error);
+        }
+    };
+
+    const handleBooking = async (flight: FlightData) => {
+        if (selectedPrice === null) {
+            console.error('Please select a price before booking.');
+            return;
+        }
+
+        const ticketData = {
+            flight,
+            price: selectedPrice,  // Sadece price değeri dbye yazılıyor
+        };
+
+        await postTicket(ticketData);
+    };
 
     if (isLoading) {
         return (
             <div className="w-3/4 h-screen bg-gray-100 p-6 rounded-lg shadow-md flex flex-col items-center justify-center">
-                <InfinitySpin
-                    width="100"
-                    color="purple"
-                />
+                <InfinitySpin width="100" color="purple" />
             </div>
         );
     }
 
-
     return (
         <div className="w-3/4 h-screen bg-gray-100 p-6 rounded-lg shadow-md flex flex-col justify-between">
+            <TopFilter/>
             <div className="overflow-y-auto flex-grow">
                 {availableFlights.map((availableFlight) => (
                     <Flight
                         key={availableFlight.id}
                         mainFlight={availableFlight.mainFlight}
-                        arrivalTime={formatDateTime(availableFlight.actualLandingTime, "time")}
-                        departureTime={formatDateTime(availableFlight.scheduleDateTime, "time")}
+                        arrivalTime={formatDateTime(availableFlight.actualLandingTime || '', "time")}
+                        departureTime={formatDateTime(availableFlight.scheduleDateTime || '', "time")}
                         to={availableFlight.route.destination}
-                        flightTime={getTimeDifference(availableFlight.scheduleDateTime, availableFlight.actualLandingTime)}
-                        isFutureDate={isFuture(availableFlight.actualLandingTime)}
+                        flightTime={getTimeDifference(availableFlight.scheduleDateTime || '', availableFlight.actualLandingTime || '')}
+                        isFutureDate={isFuture(availableFlight.actualLandingTime || '')}
                         icao={availableFlight.prefixICAO}
                     />
                 ))}
 
                 {flights.map((flight, i) => (
-                    <Flight
-                        key={i}
-                        mainFlight={flight.mainFlight}
-                        arrivalTime={flight.estimatedLandingTime ? formatDateTime(flight.estimatedLandingTime, "time") : "Time value not found!"}
-                        departureTime={flight.scheduleTime}
-                        to={flight.route.destinations}
-                        landingTime={flight.landingTime ? formatDateTime(flight.estimatedLandingTime, "time") : "Time value not found!"}
-                        flightTime={getTimeDifference(flight.scheduleDateTime, flight.estimatedLandingTime)}
-                        isFutureDate={isFuture(flight.actualLandingTime)}
-                        icao={flight.prefixICAO}
-                    />
+                    <div key={i} className="mb-4">
+                        <Flight
+                            mainFlight={flight.mainFlight}
+                            arrivalTime={flight.estimatedLandingTime ? formatDateTime(flight.estimatedLandingTime, "time") : "Time value not found!"}
+                            departureTime={flight.scheduleTime || "Time value not found!"}
+                            to={flight.route.destinations || "Destination not found!"}
+                            landingTime={flight.landingTime ? formatDateTime(flight.estimatedLandingTime || '', "time") : "Time value not found!"}
+                            flightTime={getTimeDifference(flight.scheduleDateTime || '', flight.estimatedLandingTime || '')}
+                            isFutureDate={isFuture(flight.actualLandingTime || '')}
+                            icao={flight.prefixICAO || ''}
+                        />
+                    </div>
                 ))}
             </div>
 
@@ -192,7 +226,6 @@ const Flights = () => {
             </div>
         </div>
     );
-
 };
 
 export default Flights;

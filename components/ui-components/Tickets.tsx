@@ -2,9 +2,8 @@ import React from 'react';
 import {Toaster} from "sonner";
 import FlightDirection from "@/components/ui-components/FlightDirection";
 import FlightSum from "@/components/ui-components/FlightSum";
-import {schiphol} from "@/constants/schiphol";
-import {Button} from "@/components/ui/button";
 import {cn} from "@/lib/utils";
+import {priceOptions} from "@/constants/priceOptions";
 
 interface TicketsProps {
     landingTime: string
@@ -19,7 +18,8 @@ interface TicketsProps {
     price: number
 }
 
-const Tickets = ({landingTime, flight, to, flightTime, departureTime, arrivalTime, isFutureDate, icao, mainFlight, price}:TicketsProps) => {
+
+const Tickets = ({landingTime, flight, to, flightTime, departureTime, arrivalTime, isFutureDate, icao, mainFlight, price}: TicketsProps) => {
     return (
         <div className="bg-white p-4 rounded-lg shadow mb-4 border-purple-400 border-2 flex flex-col">
             <Toaster toastOptions={{
@@ -37,52 +37,28 @@ const Tickets = ({landingTime, flight, to, flightTime, departureTime, arrivalTim
                     <div className="flex flex-row justify-between items-center bottom-0">
                         <div className="w-full bottom-0 flex flex-row justify-between items-center">
                             <h3 className="opacity-75">Round Trip</h3>
-                            <h3 className="font-bold text-lg text-purple-600">Price: ${schiphol.price}</h3>
+                            <h3 className="font-bold text-lg text-purple-600">Price: ${price}</h3>
                         </div>
                     </div>
                 </div>
                 <div className="w-1/2 border-2 border-[#7C00FE] rounded-md m-2 p-2 flex flex-col justify-between">
                     <div className="flex flex-row items-center justify-between">
-                        <div className="flex flex-col h-full w-full items-center justify-center m-2 p-8 border-2 border-slate-700 rounded-md ">
-                            <h1 className="font-bold text-lg">
-                                $200
-                            </h1>
-                            <h6 className="text-lg">
-                                Main
-                            </h6>
-                        </div>
-                        <div className="flex flex-col h-full w-full items-center justify-center m-2 p-8 border-2 border-slate-700 rounded-md">
-                            <h1 className="font-bold text-lg">
-                                $250
-                            </h1>
-                            <h6 className="text-lg">
-                                Main 1
-                            </h6>
-                        </div>
-                        <div className="flex flex-col h-full w-full items-center justify-center m-2 p-8 border-2 border-slate-700 rounded-md">
-                            <h1 className="font-bold text-lg">
-                                $300
-                            </h1>
-                            <h6 className="text-lg">
-                                Main 2
-                            </h6>
-                        </div>
-                        <div className="flex flex-col h-full w-full items-center justify-center m-2 p-8 border-2 border-slate-700 rounded-md">
-                            <h1 className="font-bold text-lg">
-                                $350
-                            </h1>
-                            <h6 className="text-lg">
-                                Main 3
-                            </h6>
-                        </div>
-                        <div className="flex flex-col h-full w-full items-center justify-center m-2 p-8 border-2 border-slate-700 rounded-md">
-                            <h1 className="font-bold text-lg">
-                                $400
-                            </h1>
-                            <h6 className="text-lg">
-                                Main 4
-                            </h6>
-                        </div>
+                        {priceOptions.map((option, index) => (
+                            <div
+                                key={index}
+                                className={cn(
+                                    "flex flex-col h-full w-full items-center justify-center m-2 p-8 border-2 rounded-md cursor-pointer",
+                                    price === option.value ? "border-purple-600 bg-purple-100" : "border-slate-700 opacity-50"
+                                )}
+                            >
+                                <h1 className="font-bold text-lg">
+                                    ${option.value}
+                                </h1>
+                                <h6 className="text-lg">
+                                    {option.label}
+                                </h6>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

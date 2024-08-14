@@ -22,6 +22,14 @@ const TicketsPage = () => {
         fetchTickets();
     }, []); // Boş bağımlılık dizisi, effect'in sadece component mount edildiğinde çalışmasını sağlar
 
+    if (tickets.length == 0) {
+        return (
+            <div className="w-full h-screen bg-gray-100 p-6 rounded-lg shadow-md flex flex-col items-center justify-center text-2xl">
+                There is no ticket to show
+            </div>
+        );
+    }
+
     if (isLoading) {
         return (
             <div className="w-full h-screen bg-gray-100 p-6 rounded-lg shadow-md flex flex-col items-center justify-center">

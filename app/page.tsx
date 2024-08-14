@@ -1,6 +1,7 @@
 import TopNavbar from "@/components/ui-components/TopNavbar";
 import Flights from "@/components/ui-components/Flights";
 import Advertises from "@/components/ui-components/Advertises";
+import React from "react";
 
 export default function Home() {
     return (
