@@ -6,6 +6,13 @@ Kurulum Aşaması:
 1-) Projeyi indirdikten sonra "npm install" ile gerekli kurulumları yapınız.
 
 2-) "npx shadcn-ui@latest init" komutuyla shadcn kurulumunu gerçekleştirin. Shadcn ile button varyantları özelleştirilmiştir.
+    ShadCN kurulumunu yaparken bu şekilde seçiniz.
+
+    ✔ Which style would you like to use? › Default
+
+    ✔ Which color would you like to use as base color? › Slate
+
+    ✔ Would you like to use CSS variables for colors? … yes
 
 3-) root dizine ".env.local" dosyası oluşturun.
 
