@@ -1,38 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Bu uygulama AMS Schiphol havaalanının api'ına bağlanarak uçuş verilerini sıralayan ve seçilen uçuşları MongoDB'ye satın alınmış bir bilet gibi kaydeden bir NextJS uygulamasıdır.
 
-## Getting Started
 
-First, run the development server:
+Kurulum Aşaması:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1-) Projeyi indirdikten sonra "npm install" ile gerekli kurulumları yapınız.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2-) "npx shadcn-ui@latest init" komutuyla shadcn kurulumunu gerçekleştirin. Shadcn ile button varyantları özelleştirilmiştir.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3-) root dizine ".env.local" dosyası oluşturun.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4-) .env.local içerisine geçerli keyleri ve valueları giriniz.
 
-## Learn More
+    NEXT_PUBLIC_APP_ID=
 
-To learn more about Next.js, take a look at the following resources:
+    NEXT_PUBLIC_APP_KEY=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    MONGO_URI=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+5-) "npm run dev" komutuyla kodu çalıştırın.
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Web application önizlemelerine buradan göz atabilirsiniz.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# schiphol-flight-app
-# schiphol-flight-app
+Ön İzleme
+
+Biletlerim sayfası boş gösterim.
+
+![Biletlerim sayfasi bos gosterim](public/appfellas/empty-tickets-page.png)
+
+Uçuşlar sayfası.
+
+![Ucuslarim_sayfasi](public/appfellas/flights-page.png)
+
+Bilet seçenekleri ve satın alınamaz biletler.
+
+![Bilet_secenekleri_ve_erisilemez_biletler](public/appfellas/flight-options-unavailable-flight.png)
+
+Bilet satın alma aşaması uyarıları.
+
+Başarılı satis.
+
+![Basrili_satis](public/appfellas/success.png)
+
+Uyarı.
+
+![Bilet_secenegi_eksik](public/appfellas/warning.png)
+
+Başarısız satış.
+
+![Basarısiz_satis](public/appfellas/error.png)
+
+Biletlerim sayfası
+
+![Biletlerim_sayfasi](public/appfellas/tickets-page.png)
