@@ -1,5 +1,5 @@
 /*
-    Kullanıcının biletlerinin gösterildiği componenettir. satın almış olduğu biletler ve alternatif opsiyonları gösterilmiştir.
+    Kullanıcının biletlerinin gösterildiği componenettir. satın almış olduğu biletler ve alternatif fiyat opsiyonları gösterilmiştir.
 */
 
 import React from 'react';

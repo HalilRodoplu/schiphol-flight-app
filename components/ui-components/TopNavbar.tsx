@@ -16,6 +16,8 @@ const TopNavbar = () => {
         setDropdownOpen(!dropdownOpen);
     };
 
+    // Profil kısmına tıklanarak açılan kart ve redirect işlemi için yazılmış fonksiyon
+
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {

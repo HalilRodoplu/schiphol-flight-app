@@ -1,3 +1,6 @@
+
+/*Flights içerisinde dönen flight componeneti. kalkış varış zamanı rota tahmini uçuş süresi vb bilgileri içerir*/
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import FlightSum from "@/components/ui-components/FlightSum";
@@ -38,9 +41,13 @@ const Flight = ({
                     mainFlight
                 }: FlightProps) => {
 
+    // stateler ayarlanmıştır
     const [isLoading, setIsLoading] = useState(false);
     const [showPriceOptions, setShowPriceOptions] = useState(false);
     const [selectedPrice, setSelectedPrice] = useState<number | null>(null);
+
+
+    // bilet alırken kullanılan post isteği ve beraberinde dönen uyarı mesajlarının ayarlandığı fonksiyon
 
     const postTicket = async (ticketData: any) => {
         const response = await fetch("/api/tickets", {
@@ -103,6 +110,8 @@ const Flight = ({
             });
         }
     };
+
+    // tanımlanan bilet fiyatlarının seçiminde kullanılan fonksiyon
 
     const handlePriceSelection = (price: number) => {
         setSelectedPrice(price);

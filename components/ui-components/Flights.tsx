@@ -29,9 +29,11 @@ interface FlightData {
 
 const Flights = () => {
 
+    // stateler ayarlanmıştır
+
     const [flights, setFlights] = useState<FlightData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [page, setPage] = useState(0); // Başlangıç sayfası 0
+    const [page, setPage] = useState(0);
     const [selectedPrice, setSelectedPrice] = useState<number | null>(null);
     const itemsPerPage = 5;
 
@@ -39,6 +41,8 @@ const Flights = () => {
         fetchFlights();
     }, [page]);
 
+
+    // api proxye atılan get isteğiyle veri döndürülmüştür
     const fetchFlights = async () => {
         const apiUrl = `/api/proxy?page=${page}`;
         setIsLoading(true);
@@ -56,6 +60,8 @@ const Flights = () => {
             setIsLoading(false);
         }
     };
+
+    // pagination işlemi için yazılmış olan fonksiyonlar
 
     const handleNextPage = () => {
         setPage(prevPage => prevPage + 1);
@@ -75,6 +81,8 @@ const Flights = () => {
 
     const startPage = Math.floor(page / itemsPerPage) * itemsPerPage;
     const endPage = startPage + itemsPerPage;
+
+    // uçuş süresini hesaplamak için yazılmış fonksiyon
 
     function formatDateTime(isoString: string, formatType: string) {
         const date = new Date(isoString);
@@ -121,12 +129,16 @@ const Flights = () => {
         return result.trim();
     }
 
+    // şu anki saat geçildiyse bilet alınmasını engellemek için yazılmış fonksiyon
+
     const isFuture = (dateString: string) => {
         const inputDate = new Date(dateString);
         const now = new Date();
 
         return inputDate > now;
     };
+
+    // bilet satın alırken kullanılan post isteği
 
     const postTicket = async (ticketData: any) => {
         const response = await fetch("/api/tickets", {
@@ -157,6 +169,8 @@ const Flights = () => {
 
         await postTicket(ticketData);
     };
+
+    // sayfa yüklenirken kullanılan loader
 
     if (isLoading) {
         return (
