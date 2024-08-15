@@ -1,8 +1,11 @@
+/*
+Satın alınan biletler bu sayfada gösterilmektedir buradan istek yazmış olduğumuz route'a gider ve bize state içerisinde döner
+*/
+
 "use client"
 import React, {useEffect, useState} from 'react';
 
 import {InfinitySpin} from "react-loader-spinner";
-import Flight from "@/components/ui-components/Flight";
 import Tickets from "@/components/ui-components/Tickets";
 
 const TicketsPage = () => {
@@ -15,20 +18,13 @@ const TicketsPage = () => {
             const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
             const response = await fetch(`${baseUrl}/api/tickets`);
             const ticketsData = await response.json();
-            setTickets(ticketsData); // Veriyi state'e kaydedin
+            setTickets(ticketsData);
             setIsLoading(false);
         };
 
         fetchTickets();
-    }, []); // Boş bağımlılık dizisi, effect'in sadece component mount edildiğinde çalışmasını sağlar
+    }, []);
 
-    if (tickets.length == 0) {
-        return (
-            <div className="w-full h-screen bg-gray-100 p-6 rounded-lg shadow-md flex flex-col items-center justify-center text-2xl">
-                There is no ticket to show
-            </div>
-        );
-    }
 
     if (isLoading) {
         return (
@@ -40,6 +36,18 @@ const TicketsPage = () => {
             </div>
         );
     }
+
+
+    if (tickets.length == 0) {
+        return (
+            <div className="w-full h-screen bg-gray-100 p-6 rounded-lg shadow-md flex flex-col items-center justify-center text-2xl">
+                There is no ticket to show
+            </div>
+        );
+    }
+
+
+
 
     return (
         <div className="h-full w-full m-3 bg-gray-100 p-6 rounded-lg shadow-md">

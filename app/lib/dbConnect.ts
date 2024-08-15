@@ -1,3 +1,7 @@
+/*
+* MONGODB bağlantısı burada yapılmıştır.
+* */
+
 import mongoose from "mongoose";
 
 const connection: {isConnected?: number} = {}

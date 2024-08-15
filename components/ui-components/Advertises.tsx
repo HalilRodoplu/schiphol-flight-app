@@ -1,6 +1,12 @@
+/*
+    Ekranın sağında bulunan reklamlar bu componentte tasarlanmıştır
+*/
+
+
 import React from 'react';
 import Image from 'next/image';
-import Link from "next/link";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCar, faHotel, faUmbrellaBeach} from "@fortawesome/free-solid-svg-icons";
 
 const Advertises = () => {
     return (
@@ -16,7 +22,7 @@ const Advertises = () => {
                         className="rounded-lg"
                     />
                     <div className="absolute left-2 bottom-2">
-                        <i className="fa-solid fa-car bg-gray-300"></i>
+                        <FontAwesomeIcon icon={faCar} className="text-white h-12 w-12 opacity-75"/>
                         <p className="text-gray-100 text-lg">Rent a car</p>
                     </div>
                 </a>
@@ -31,7 +37,7 @@ const Advertises = () => {
                         className="rounded-lg"
                     />
                     <div className="absolute left-2 bottom-2">
-                        <i className="fa-solid fa-car bg-gray-300"></i>
+                        <FontAwesomeIcon icon={faHotel} className="text-white h-12 w-12 opacity-75"/>
                         <p className="text-gray-100 text-lg">Hotels</p>
                     </div>
                 </a>
@@ -46,7 +52,7 @@ const Advertises = () => {
                         className="rounded-lg"
                     />
                     <div className="absolute left-2 bottom-2">
-                        <i className="fa-solid fa-car bg-gray-300"></i>
+                        <FontAwesomeIcon icon={faUmbrellaBeach} className="text-white h-12 w-12 opacity-75"/>
                         <p className="text-gray-100 text-lg">Travel Packages</p>
                     </div>
                 </a>

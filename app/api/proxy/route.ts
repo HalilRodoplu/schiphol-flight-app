@@ -1,3 +1,8 @@
+/*
+* Shiphol api'a istek atarken düşülen CORS hatasından dolayı proxy yazılmıştır.
+* (ICAO) Filtre işlemi için GET atılacak URL maniplasyonu burada yapılmıştır.
+* API'a istek atılırken pagination için gerekli düzenlemeler burda yapılmıştır.*/
+
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -6,7 +11,6 @@ export async function GET(request: Request) {
     const route = searchParams.get('route');
 
 
-    // flights? parametresinden sonra route ekliyoruz
     let apiUrl = `https://api.schiphol.nl/public-flights/flights?`;
 
     if (route) {

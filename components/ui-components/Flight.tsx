@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import {Button} from "@/components/ui/button";
+import React, { useState } from 'react';
+import { Button } from "@/components/ui/button";
 import FlightSum from "@/components/ui-components/FlightSum";
 import FlightDirection from "@/components/ui-components/FlightDirection";
-import {cn} from "@/lib/utils"
-import {schiphol} from "@/constants/schiphol";
-import {toast, Toaster} from "sonner";
+import { cn } from "@/lib/utils";
+import { schiphol } from "@/constants/schiphol";
+import { toast, Toaster } from "sonner";
 
 interface FlightProps {
     landingTime: string,
@@ -18,7 +18,13 @@ interface FlightProps {
     mainFlight: string,
 }
 
-const priceOptions = [200, 250, 300, 350, 400];
+const priceOptions = [
+    { value: 200, label: "Main" },
+    { value: 250, label: "Main 1" },
+    { value: 300, label: "Main 2" },
+    { value: 350, label: "Main 3" },
+    { value: 400, label: "Main 4" }
+];
 
 const Flight = ({
                     landingTime,
@@ -42,20 +48,20 @@ const Flight = ({
             headers: {
                 'Content-Type': 'application/json',
             },
-            // body: JSON.stringify(ticketData)
+            body: JSON.stringify(ticketData)
         });
         const data = await response.json();
         if (!data.error) {
             toast.success('Successfully bought a ticket!', {
                 style: {
-                    backgroundColor: 'green',
+                    backgroundColor: '#00712D',
                     color: 'white'
                 }
             });
         } else {
             toast.error('Something went wrong!', {
                 style: {
-                    backgroundColor: 'red',
+                    backgroundColor: '#ae0000',
                     color: 'white'
                 }
             });
@@ -66,10 +72,8 @@ const Flight = ({
         if (isLoading) return;
 
         if (!showPriceOptions) {
-            // İlk tıklama, fiyat seçeneklerini gösterir
             setShowPriceOptions(true);
         } else if (selectedPrice !== null) {
-            // Fiyat seçildikten sonra ikinci tıklama, veritabanına kaydeder
             setIsLoading(true);
 
             const ticketData = {
@@ -82,19 +86,19 @@ const Flight = ({
                 arrivalTime,
                 isFutureDate,
                 icao,
-                price: selectedPrice,  // Seçilen fiyat
+                price: selectedPrice,  // Sadece price (value) veritabanına yazılacak
                 mainFlight: mainFlight
             };
 
             await postTicket(ticketData);
             setIsLoading(false);
             setShowPriceOptions(false);
-            setSelectedPrice(null);  // Seçilen fiyatı sıfırla
+            setSelectedPrice(null);
         } else {
             toast('Please select a flight price', {
                 style: {
-                    backgroundColor: 'yellow',
-                    color: 'black'
+                    backgroundColor: '#dc7e01',
+                    color: 'white'
                 }
             });
         }
@@ -107,9 +111,8 @@ const Flight = ({
     return (
         <div className="bg-white p-4 rounded-lg shadow mb-4 border-purple-400 border-2 flex flex-col">
             <Toaster />
-            <FlightDirection to={to} mainFlight={mainFlight}/>
-            <FlightSum icao={icao} to={to} flightTime={flightTime} departureTime={departureTime}
-                       arrivalTime={arrivalTime}/>
+            <FlightDirection to={to} mainFlight={mainFlight} />
+            <FlightSum icao={icao} to={to} flightTime={flightTime} departureTime={departureTime} arrivalTime={arrivalTime} />
             <div className="flex flex-row justify-between items-center bottom-0">
                 <div className="bottom-0">
                     <h3 className="font-bold text-lg text-purple-600">Price: ${selectedPrice || schiphol.price}</h3>
@@ -122,22 +125,22 @@ const Flight = ({
                         onClick={clickHandler}
                         disabled={!isFutureDate || isLoading}
                     >
-                        {isLoading ? "Booking..." : (selectedPrice ? "Confirm Booking" : "Select Price")}
+                        {isLoading ? "Booking..." : (selectedPrice ? "Confirm" : "Select Price")}
                     </Button>
                 </div>
             </div>
             {showPriceOptions && isFutureDate ? (
                 <div className="flex flex-row justify-center mt-4 space-x-4">
-                    {priceOptions.map((price, index) => (
+                    {priceOptions.map((option, index) => (
                         <div
                             key={index}
-                            onClick={() => handlePriceSelection(price)}
+                            onClick={() => handlePriceSelection(option.value)}
                             className={cn(
                                 "cursor-pointer border-2 p-4 rounded-lg",
-                                selectedPrice === price ? "border-purple-600 bg-purple-100" : "border-gray-300"
+                                selectedPrice === option.value ? "border-purple-600 bg-purple-100" : "border-gray-300"
                             )}
                         >
-                            ${price}
+                            ${option.value} - {option.label}
                         </div>
                     ))}
                 </div>

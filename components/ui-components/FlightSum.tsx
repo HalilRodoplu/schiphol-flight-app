@@ -1,3 +1,7 @@
+/*
+    Flight componentinin içerisinde ortada dönen uçuşun kalkış iniş saatini yönünü uçuş süresini gösteren componenettir.
+*/
+
 import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlaneDeparture, faPlaneArrival, faPlane} from "@fortawesome/free-solid-svg-icons";

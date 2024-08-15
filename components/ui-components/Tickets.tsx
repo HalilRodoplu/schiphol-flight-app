@@ -1,3 +1,7 @@
+/*
+    Kullanıcının biletlerinin gösterildiği componenettir. satın almış olduğu biletler ve alternatif opsiyonları gösterilmiştir.
+*/
+
 import React from 'react';
 import {Toaster} from "sonner";
 import FlightDirection from "@/components/ui-components/FlightDirection";

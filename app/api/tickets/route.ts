@@ -1,3 +1,9 @@
+/*
+* MONGODB satın alınan biletler için bu aşamada POST isteği ayarlanmıştır.
+* MONGODB ye kaydedilen biletlerim verisi çekilip kullanıcıya gösterilmesi için GET isteği burada yazılmıştır.
+* */
+
+
 import dbConnect from "@/app/lib/dbConnect";
 import Tickets from "@/app/models/Tickets";
 import {NextResponse} from "next/server";

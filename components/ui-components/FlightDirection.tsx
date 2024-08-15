@@ -1,3 +1,7 @@
+/*
+    Flight componenetinin en üzerinde uçuşun nereden nereye olacağını göstermek için yazılmış olan componenet.
+*/
+
 import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRight} from "@fortawesome/free-solid-svg-icons";

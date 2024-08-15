@@ -1,3 +1,7 @@
+/*
+    MONGODB açılacak schema ve tabloya insert edilecek verilerin tipleri burada belirlenmiştir
+*/
+
 import mongoose, {Document, Schema} from "mongoose";
 
 export interface TicketsInterface extends Document {

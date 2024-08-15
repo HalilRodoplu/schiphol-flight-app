@@ -1,3 +1,7 @@
+/*
+    Bütün uçuşların gösterildiği asıl componenetimizdir. Filtre pagination gibi işlemler bu componenette yapılmıştır.
+*/
+
 "use client";
 
 import React, {useState, useEffect} from 'react';
@@ -16,7 +20,7 @@ interface FlightData {
     prefixICAO?: string;
     route: {
         destination: string;
-        destinations?: string; // Ek olarak destinations alanı da ekliyorum çünkü map'de bunu kullanıyorsunuz
+        destinations?: string;
     };
     landingTime?: string;
 }
@@ -33,7 +37,7 @@ const Flights = () => {
 
     useEffect(() => {
         fetchFlights();
-    }, [page]); // Sayfa numarası değiştiğinde yeniden fetch yapar
+    }, [page]);
 
     const fetchFlights = async () => {
         const apiUrl = `/api/proxy?page=${page}`;
@@ -85,7 +89,7 @@ const Flights = () => {
 
         if (formatType === 'time') {
             return `${hours}:${minutes}:${seconds}`;
-        } else { // Varsayılan olarak 'date' ya da diğer tüm değerler için tarih ve saat döndür
+        } else {
             return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
         }
     }
@@ -148,7 +152,7 @@ const Flights = () => {
 
         const ticketData = {
             flight,
-            price: selectedPrice,  // Sadece price değeri dbye yazılıyor
+            price: selectedPrice,
         };
 
         await postTicket(ticketData);
